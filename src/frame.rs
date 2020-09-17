@@ -767,6 +767,10 @@ impl Frame<marker::Composite> {
     pub fn kind(&self) -> RsResult<StreamKind> {
         Ok(self.stream_profile()?.get_data()?.stream)
     }
+
+    pub fn profile_data(&self) -> RsResult<StreamProfileData> {
+        Ok(self.stream_profile()?.get_data()?)
+    }
 }
 
 impl Frame<marker::Pose> {
