@@ -723,6 +723,27 @@ impl Frame<marker::Composite> {
         Ok(None)
     }
 
+    pub fn nth_of_any<Kind>(
+        &self,
+        index: usize,
+        stream: StreamKind,
+    ) -> RsResult<Option<Frame<Kind>>>
+    where
+        Kind: marker::NonAnyFrameKind,
+    {
+        let mut i: usize = 0;
+        for result in self.try_iter()? {
+            let frame_any = result?;
+            if let Ok(frame) = frame_any.try_extend_to::<Kind>()? {
+                if frame.stream_profile()?.get_data()?.stream == stream && i == index {
+                    return Ok(Some(frame));
+                }
+            }
+            i += 1;
+        }
+        Ok(None)
+    }
+
     pub fn color_frame(&self) -> RsResult<Option<Frame<marker::Video>>> {
         self.first_of::<marker::Video>(StreamKind::Color)
     }
@@ -733,6 +754,18 @@ impl Frame<marker::Composite> {
 
     pub fn pose_frame(&self) -> RsResult<Option<Frame<marker::Pose>>> {
         self.first_of::<marker::Pose>(StreamKind::Pose)
+    }
+
+    pub fn gyro_frame(&self) -> RsResult<Option<Frame<marker::Motion>>> {
+        self.first_of::<marker::Motion>(StreamKind::Gyro)
+    }
+
+    pub fn accel_frame(&self) -> RsResult<Option<Frame<marker::Motion>>> {
+        self.first_of::<marker::Motion>(StreamKind::Accel)
+    }
+
+    pub fn kind(&self) -> RsResult<StreamKind> {
+        Ok(self.stream_profile()?.get_data()?.stream)
     }
 }
 
