@@ -31,7 +31,7 @@ impl Config {
     pub fn enable_stream(
         self,
         stream: StreamKind,
-        index: usize,
+        index: i32,
         width: usize,
         height: usize,
         format: Format,
