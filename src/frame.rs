@@ -466,7 +466,7 @@ where
                         width_stride: 1,
                         height_stride: stride_in_bytes / sample_size,
                     },
-                    color_hint: Some(ColorType::L16),
+                    color_hint: Some(ColorType::L8),
                 };
                 let image = flat.try_into_buffer().unwrap();
                 Rs2Image::Luma8(image)
