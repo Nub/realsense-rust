@@ -10,6 +10,7 @@ use crate::{
     sensor::{marker as sensor_marker, Sensor},
     stream_profile::{marker as stream_marker, StreamProfile},
 };
+use std::time::Instant;
 
 /// Marker types and traits for [Frame].
 pub mod marker {
