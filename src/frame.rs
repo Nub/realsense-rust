@@ -287,6 +287,7 @@ where
     /// Gets color image buffer referencing underlying raw data.
     #[cfg(feature = "with-image")]
     fn image(&self) -> RsResult<Rs2Image> {
+        let start = Instant::now();
         let StreamProfileData { format, .. } = self.stream_profile()?.get_data()?;
         let raw_data = self.data()?;
         let Resolution { width, height } = self.resolution()?;
@@ -464,14 +465,14 @@ where
                     },
                     color_hint: Some(ColorType::L8),
                 };
-                // let image = flat.try_into_buffer().unwrap();
-                let image =
-                    ImageBuffer::<Luma<u8>, &[u8]>::from_raw(width as u32, height as u32, data)
-                        .unwrap();
+                let image = flat.try_into_buffer().unwrap();
                 Rs2Image::Luma8(image)
             }
             _ => unreachable!("unsupported format. please report bug"),
         };
+
+        let duration = start.elapsed();
+        println!("image-conv-dt: {:?}", duration);
 
         Ok(image)
     }
