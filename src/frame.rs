@@ -473,7 +473,7 @@ where
         };
 
         let duration = start.elapsed();
-        println!("image-conv-dt: {:?}", duration);
+        // println!("image-conv-dt: {:?}", duration);
 
         Ok(image)
     }
