@@ -464,7 +464,10 @@ where
                     },
                     color_hint: Some(ColorType::L8),
                 };
-                let image = flat.try_into_buffer().unwrap();
+                // let image = flat.try_into_buffer().unwrap();
+                let image =
+                    ImageBuffer::<Luma<u8>, &[u8]>::from_raw(width as u32, height as u32, data)
+                        .unwrap();
                 Rs2Image::Luma8(image)
             }
             _ => unreachable!("unsupported format. please report bug"),
